@@ -60,7 +60,7 @@ seguindo o tutorial: https://www.twilio.com/blog/building-and-consuming-a-restfu
       // logic to delete a student record goes here
     }
 
-6. Criar as rotas
+6. Criar as rotas no arqivo api.php pois ai a rota fica /api/nome_rota
 
     Route::get('students', 'ApiController@getAllStudents');
     Route::get('students/{id}', 'ApiController@getStudent');
@@ -87,6 +87,6 @@ seguindo o tutorial: https://www.twilio.com/blog/building-and-consuming-a-restfu
 
     $students = Student::get()->toJson(JSON_PRETTY_PRINT);
     return response($students, 200);
-    
+
 
 
