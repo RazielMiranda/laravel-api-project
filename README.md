@@ -116,3 +116,18 @@ seguindo o tutorial: https://www.twilio.com/blog/building-and-consuming-a-restfu
         ], 404);
         
     }
+
+11. Deletando o estudante
+
+      if(Student::where('id', $id)->exists()) {
+        $student = Student::find($id);
+        $student->delete();
+
+        return response()->json([
+          "message" => "records deleted"
+        ], 202);
+      } else {
+        return response()->json([
+          "message" => "Student not found"
+        ], 404);
+      }
