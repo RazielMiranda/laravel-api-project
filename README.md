@@ -81,12 +81,20 @@ seguindo o tutorial: https://www.twilio.com/blog/building-and-consuming-a-restfu
     ], 201);
   }
 
-8. Testar com o POSTMAN
-
-9. Retornar dados
+8. Retornar dados 
 
     $students = Student::get()->toJson(JSON_PRETTY_PRINT);
     return response($students, 200);
 
+9. Fazendo retornar pelo id
 
-
+  public function getStudent($id) {
+    if (Student::where('id', $id)->exists()) {
+        $student = Student::where('id', $id)->get()->toJson(JSON_PRETTY_PRINT);
+        return response($student, 200);
+      } else {
+        return response()->json([
+          "message" => "Student not found"
+        ], 404);
+      }
+  }
