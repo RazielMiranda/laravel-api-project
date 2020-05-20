@@ -98,3 +98,21 @@ seguindo o tutorial: https://www.twilio.com/blog/building-and-consuming-a-restfu
         ], 404);
       }
   }
+
+10. Fazendo o Update de um estudante
+
+    if (Student::where('id', $id)->exists()) {
+        $student = Student::find($id);
+        $student->name = is_null($request->name) ? $student->name : $request->name;
+        $student->course = is_null($request->course) ? $student->course : $request->course;
+        $student->save();
+
+        return response()->json([
+            "message" => "records updated successfully"
+        ], 200);
+        } else {
+        return response()->json([
+            "message" => "Student not found"
+        ], 404);
+        
+    }
