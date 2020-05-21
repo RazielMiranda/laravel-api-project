@@ -2,28 +2,28 @@
 
 Criar uma API REST com Laravel
 
-seguindo o tutorial: https://www.twilio.com/blog/building-and-consuming-a-restful-api-in-laravel-php
+Seguindo o tutorial: https://www.twilio.com/blog/building-and-consuming-a-restful-api-in-laravel-php
 
 1. Criar o APP e o banco de dados
 
 2. Criar a model
 
-       php artisan make:model Student -m
+         php artisan make:model Student -m
 
 3. Editar a model para aceitar os padroes
 
-    <?php
+        <?php
 
-        namespace App;
+            namespace App;
 
-        use Illuminate\Database\Eloquent\Model;
+            use Illuminate\Database\Eloquent\Model;
 
-        class Student extends Model
-        {
-            protected $table = 'students';
+            class Student extends Model
+            {
+                protected $table = 'students';
 
-            protected $fillable = ['name', 'course'];
-        }
+                protected $fillable = ['name', 'course'];
+            }
 
 4. Rodar as migrations
 
@@ -40,94 +40,96 @@ seguindo o tutorial: https://www.twilio.com/blog/building-and-consuming-a-restfu
 
         php artisan make:controller ApiController
 
-    public function getAllStudents() {
-      // logic to get all students goes here
-    }
+        public function getAllStudents() {
+          // logic to get all students goes here
+        }
 
-    public function createStudent(Request $request) {
-      // logic to create a student record goes here
-    }
+        public function createStudent(Request $request) {
+          // logic to create a student record goes here
+        }
 
-    public function getStudent($id) {
-      // logic to get a student record goes here
-    }
+        public function getStudent($id) {
+          // logic to get a student record goes here
+        }
 
-    public function updateStudent(Request $request, $id) {
-      // logic to update a student record goes here
-    }
+        public function updateStudent(Request $request, $id) {
+          // logic to update a student record goes here
+        }
 
-    public function deleteStudent ($id) {
-      // logic to delete a student record goes here
-    }
+        public function deleteStudent ($id) {
+          // logic to delete a student record goes here
+        }
 
 6. Criar as rotas no arqivo api.php pois ai a rota fica /api/nome_rota
 
-    Route::get('students', 'ApiController@getAllStudents');
-    Route::get('students/{id}', 'ApiController@getStudent');
-    Route::post('students, 'ApiController@createStudent');
-    Route::put('students/{id}', 'ApiController@updateStudent');
-    Route::delete('students/{id}','ApiController@deleteStudent');
+        Route::get('students', 'ApiController@getAllStudents');
+        Route::get('students/{id}', 'ApiController@getStudent');
+        Route::post('students, 'ApiController@createStudent');
+        Route::put('students/{id}', 'ApiController@updateStudent');
+        Route::delete('students/{id}','ApiController@deleteStudent');
 
 7. No controller criar o metodo de criação de estudante
 
-  public function createStudent(Request $request) {
-    $student = new Student;
-    $student->name = $request->name;
-    $student->course = $request->course;
-    $student->save();
+        public function createStudent(Request $request) {
+            $student = new Student;
+            $student->name = $request->name;
+            $student->course = $request->course;
+            $student->save();
 
-    return response()->json([
-        "message" => "student record created"
-    ], 201);
-  }
+            return response()->json([
+                "message" => "student record created"
+            ], 201);
+         }
 
 8. Retornar dados 
 
-    $students = Student::get()->toJson(JSON_PRETTY_PRINT);
-    return response($students, 200);
+        $students = Student::get()->toJson(JSON_PRETTY_PRINT);
+        return response($students, 200);
 
 9. Fazendo retornar pelo id
 
-  public function getStudent($id) {
-    if (Student::where('id', $id)->exists()) {
-        $student = Student::where('id', $id)->get()->toJson(JSON_PRETTY_PRINT);
-        return response($student, 200);
-      } else {
-        return response()->json([
-          "message" => "Student not found"
-        ], 404);
-      }
-  }
+          public function getStudent($id) {
+            if (Student::where('id', $id)->exists()) {
+                $student = Student::where('id', $id)->get()->toJson(JSON_PRETTY_PRINT);
+                return response($student, 200);
+              } else {
+                return response()->json([
+                  "message" => "Student not found"
+                ], 404);
+              }
+          }
 
 10. Fazendo o Update de um estudante
 
-    if (Student::where('id', $id)->exists()) {
-        $student = Student::find($id);
-        $student->name = is_null($request->name) ? $student->name : $request->name;
-        $student->course = is_null($request->course) ? $student->course : $request->course;
-        $student->save();
+        if (Student::where('id', $id)->exists()) {
+            $student = Student::find($id);
+            $student->name = is_null($request->name) ? $student->name : $request->name;
+            $student->course = is_null($request->course) ? $student->course : $request->course;
+            $student->save();
 
-        return response()->json([
-            "message" => "records updated successfully"
-        ], 200);
-        } else {
-        return response()->json([
-            "message" => "Student not found"
-        ], 404);
-        
-    }
+            return response()->json([
+                "message" => "records updated successfully"
+            ], 200);
+            } else {
+            return response()->json([
+                "message" => "Student not found"
+            ], 404);
+
+        }
 
 11. Deletando o estudante
 
-      if(Student::where('id', $id)->exists()) {
-        $student = Student::find($id);
-        $student->delete();
+          if(Student::where('id', $id)->exists()) {
+            $student = Student::find($id);
+            $student->delete();
 
-        return response()->json([
-          "message" => "records deleted"
-        ], 202);
-      } else {
-        return response()->json([
-          "message" => "Student not found"
-        ], 404);
-      }
+            return response()->json([
+              "message" => "records deleted"
+            ], 202);
+          } else {
+            return response()->json([
+              "message" => "Student not found"
+            ], 404);
+          }
+          
+Com isso podemos concluir que...
